@@ -1,0 +1,104 @@
+"""
+Plotting UI v1.0
+4/13/2020
+MS
+"""
+#primary imports
+from PyQt5.QtWidgets import QApplication,QVBoxLayout,QGroupBox, QLabel, QWidget, QRadioButton
+import sys
+from PyQt5 import QtGui
+from PyQt5.QtCore import QRect
+from PyQt5 import QtCore
+
+#import data_processing.py file as data processor
+import data_processing as dp
+
+#Main Window class that extends from QWidget
+class Window(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.title = "Polar Plot UI"
+        self.top = 400
+        self.left = 400
+        self.width = 1000
+        self.height = 1000
+        self.iconName = "icon.png"
+        self.InitWindow()
+
+
+#Our initial window layout using properties from Main Window Class
+    def InitWindow(self):
+        self.setWindowIcon(QtGui.QIcon(self.iconName))
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.CreateLayout()
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.groupBox)
+        self.label = QLabel(self)
+        self.label.setFont(QtGui.QFont("Sanserif",15))
+        vbox.addWidget(self.label)
+        self.setLayout(vbox)
+        self.show()
+
+#Layout for checkboxes
+    def CreateLayout(self):
+        self.groupBox = QGroupBox("Select Frequencies to Plot")
+        self.groupBox.setFont(QtGui.QFont("Sanserif",13))
+        hboxLayout = QVBoxLayout()      #vertical layout of the checkboxes
+
+        self.check1 = QRadioButton("All")
+        self.check1.setFont(QtGui.QFont("Sanserif", 13))
+        self.check1.setChecked(True)
+        self.check1.clicked.connect(self.onRadioBtn)
+        hboxLayout.addWidget(self.check1)       #prints checkbox1 on the groupbox
+
+        self.check2 = QRadioButton("1000 MHz")
+        self.check2.setFont(QtGui.QFont("Sanserif", 13))
+        self.check2.clicked.connect(self.onRadioBtn)
+        hboxLayout.addWidget(self.check2)
+
+        self.check3 = QRadioButton("1100 MHz")
+        self.check3.setFont(QtGui.QFont("Sanserif", 13))
+        self.check3.clicked.connect(self.onRadioBtn)
+        hboxLayout.addWidget(self.check3)
+
+        self.check4 = QRadioButton("1200 MHz")
+        self.check4.setFont(QtGui.QFont("Sanserif", 13))
+        self.check4.clicked.connect(self.onRadioBtn)
+        hboxLayout.addWidget(self.check4)
+
+        self.check5 = QRadioButton("1300 MHz")
+        self.check5.setFont(QtGui.QFont("Sanserif", 13))
+        self.check5.clicked.connect(self.onRadioBtn)
+        hboxLayout.addWidget(self.check5)
+
+        self.groupBox.setLayout(hboxLayout)
+
+#actions when the checkbox is selected
+    #dp function calls a sample_output.csv file in the directory
+    def onRadioBtn(self):
+        if self.check1.isChecked():
+            self.label.setText("Plotting : " + self.check1.text())
+            dp.graph_all_freqs("sample_output.csv")
+
+        if self.check2.isChecked():
+            self.label.setText("Plotting : " + self.check2.text())
+            dp.graph_one_freq("sample_output.csv", 1000)
+
+        if self.check3.isChecked():
+            self.label.setText("Plotting : " + self.check3.text())
+            dp.graph_one_freq("sample_output.csv", 1100)
+
+        if self.check4.isChecked():
+            self.label.setText("Plotting : " + self.check4.text())
+            dp.graph_one_freq("sample_output.csv", 1200)
+
+        if self.check5.isChecked():
+            self.label.setText("Plotting : " + self.check5.text())
+            dp.graph_one_freq("sample_output.csv", 1300)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)    #PyQT5 application object
+    window = Window()               #mainloop of the application
+    sys.exit(app.exec())
