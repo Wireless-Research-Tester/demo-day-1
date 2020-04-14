@@ -165,12 +165,12 @@ class Ui_GraphWindow(object):
 
 from UIskeleton.graphwindowApp import MplWidget
 
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    GraphWindow = QtWidgets.QMainWindow()
-    ui = Ui_GraphWindow()
-    ui.setupUi(GraphWindow)
-    GraphWindow.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#
+#     app = QtWidgets.QApplication(sys.argv)
+#     GraphWindow = QtWidgets.QMainWindow()
+#     ui = Ui_GraphWindow()
+#     ui.setupUi(GraphWindow)
+#     GraphWindow.show()
+#     sys.exit(app.exec_())

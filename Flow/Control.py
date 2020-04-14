@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
-from UIskeleton import loadingUI, welcomeUI, settingsApp
+from UIskeleton import loadingUI, welcomeUI, settingsApp, graphwindowUI2, graphwindowApp
 
 
 class Controller:
@@ -28,16 +28,24 @@ class Controller:
     def show_loading(self):
         self.loading = loadingUI.LoadWindow()
         self.loading.switch_window.connect(self.show_main)
-        self.settings.hide()
+        self.settings.close()
         self.loading.show()
         # self.loading.download()
 
     def show_main(self):
+        self.graph = graphwindowApp.GraphWindow()
+        self.graph.switch_window.connect(self.return_welcome)
         self.loading.close()
-        print('reached main window')
+        self.graph.show()
+        # print('reached main window')
 
     def return_welcome(self):
-        print('made it back to welcome')
+        self.back_home = welcomeUI.WelcomeWindow()
+        self.back_home.switch_window.connect(self.show_settings)
+        self.graph.close()
+        self.back_home.show()
+
+        # print('made it back to welcome')
 
 
 def main():

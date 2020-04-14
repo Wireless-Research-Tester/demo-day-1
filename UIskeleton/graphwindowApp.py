@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets as qtw
+from PyQt5 import QtCore as qtc
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,6 +7,7 @@ from UIskeleton.graphwindowUI2 import Ui_GraphWindow
 import sys
 import matplotlib
 from PyQt5.QtWidgets import *
+
 # Make sure that we are using QT5
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -13,6 +15,8 @@ from matplotlib.figure import Figure
 
 
 class GraphWindow(qtw.QMainWindow, Ui_GraphWindow):
+    switch_window = qtc.pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -20,9 +24,14 @@ class GraphWindow(qtw.QMainWindow, Ui_GraphWindow):
         # sc = MyStaticMplCanvas(self.main_widget, width=5, height=4, dpi=100)
         self.main_widget.setFocus()
         self.setCentralWidget(self.main_widget)
+        self.main_menu_bttn.clicked.connect(self.switch)
         self.show()
 
+    def switch(self):
+        self.switch_window.emit()
 
+
+# Myplotlib widget
 class MplWidget(QWidget):
 
     def __init__(self, parent=None):
